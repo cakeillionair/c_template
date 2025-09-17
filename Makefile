@@ -2,12 +2,13 @@ SHELL := bash
 
 CC      := gcc
 CFLAGS  := \
-	-std=c99 \
+	-std=c23 \
 	-Wall \
-	-Wextra
+	-Wextra \
+	-O2
 CCFLAGS  := $(CFLAGS) -c
 DBGFLAGS := \
-	-O0 \
+	-Og \
 	-fsanitize=address \
 	-DDEBUG
 
