@@ -29,6 +29,7 @@ TARGET_DEBUG := $(DBG_PATH)/$(TARGET_NAME)
 SRC       := $(foreach x, $(SRC_PATH), $(wildcard $(addprefix $(x)/*,.c*)))
 OBJ       := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 OBJ_DEBUG := $(addprefix $(DBG_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+INC       := $(foreach x, $(INC_PATH), $(wildcard $(addprefix $(x)/*,.h*)))
 
 DISTCLEAN_LIST := \
 	$(OBJ) \
@@ -48,17 +49,17 @@ RESET  := "\\e[0m"
 default: makedir all
 
 $(TARGET): $(OBJ)
-	@echo -e "$(GREEN)[CREAT] $@$(RESET)"
 	@$(CC) $(CFLAGS) -o $@ $^
+	@echo -e "$(GREEN)[CREAT] $@$(RESET)"
 $(TARGET_DEBUG): $(OBJ_DEBUG)
-	@echo -e "$(GREEN)[CREAT] $@$(RESET)"
 	@$(CC) $(CFLAGS) $(DBGFLAGS) -o $@ $^
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c*
 	@echo -e "$(GREEN)[CREAT] $@$(RESET)"
-	@$(CC) $(CCFLAGS) -o $@ $^ -I $(INC_PATH)
-$(DBG_PATH)/%.o: $(SRC_PATH)/%.c*
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c* $(INC)
+	@$(CC) $(CCFLAGS) -o $@ $< -I $(INC_PATH)
 	@echo -e "$(GREEN)[CREAT] $@$(RESET)"
-	@$(CC) $(CCFLAGS) $(DBGFLAGS) -o $@ $^ -I $(INC_PATH)
+$(DBG_PATH)/%.o: $(SRC_PATH)/%.c* $(INC)
+	@$(CC) $(CCFLAGS) $(DBGFLAGS) -o $@ $< -I $(INC_PATH)
+	@echo -e "$(GREEN)[CREAT] $@$(RESET)"
 
 FOLDERS := $(BIN_PATH) $(OBJ_PATH) $(DBG_PATH) $(INC_PATH)
 makedir:
