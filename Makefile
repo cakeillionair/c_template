@@ -68,7 +68,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INC)
 $(DBG_PATH)/%.o: $(SRC_PATH)/%.c $(INC)
 	@$(CC) -MMD -MF $(DBG_PATH)/$*.d $(CCFLAGS) $(DBGFLAGS) -o $@ $< -I $(INC_PATH)
 	@echo -e "$(GREEN)[CREAT] $@$(RESET)"
-	@echo -e "$(GREEN)[CREAT] $(DEP_PATH)/$*.d$(RESET)"
+	@echo -e "$(GREEN)[CREAT] $(DBG_PATH)/$*.d$(RESET)"
 
 FOLDERS := $(BIN_PATH) $(OBJ_PATH) $(DBG_PATH) $(INC_PATH) $(DEP_PATH)
 makedir:
